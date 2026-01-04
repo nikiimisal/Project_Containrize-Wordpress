@@ -125,13 +125,14 @@ docker run -d --name mydb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wordpres
 
 To view environment variables, you can check the official MySQL Docker repository.<br>
 👉[click here](https://hub.docker.com/_/mysql)
+
 Verify:
 
 ```bash
 docker ps
 ```
 <p align="center">
-  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20173335.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20173508.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 ---
 
@@ -283,7 +284,7 @@ SHOW DATABASES;
 
 ---
 
-## 🧠 Simple Explanation (Interview Ready)
+## 🧠 Simple Explanation 
 
 > “This project deploys WordPress and MySQL as separate Docker containers on an EC2 instance, forming a two-tier architecture where WordPress acts as the application layer and MySQL as the database layer.”
 
@@ -295,7 +296,5 @@ SHOW DATABASES;
 DevOps | Docker | Ansible | Terraform
 
 ---
-
-## 📌 Reference Repository
-
-🔗 [https://github.com/nikiimisal/Project-code-3-tier-arc-using_Ansible](https://github.com/nikiimisal/Project-code-3-tier-arc-using_Ansible)
+---
+---
