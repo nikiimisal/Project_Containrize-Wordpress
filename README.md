@@ -1,7 +1,9 @@
-# 🐳 WordPress Containerization – Two-Tier Architecture (Docker Mini Project)
+# 🐳 WordPress Containerization 
+
+> Two-Tier Architecture (Docker Mini Project)
 
 This document explains how to deploy **WordPress with MySQL using Docker containers** on an **AWS EC2 instance**.
-The project is beginner-friendly and designed for **hands-on DevOps practice & interviews**.
+The project is beginner-friendly and designed for **hands-on DevOps practice**.
 
 ---
 
@@ -31,7 +33,7 @@ MySQL Container (DB Tier)
 
 ## ⚙️ Infrastructure Setup
 
-### Step 1️⃣ Launch EC2 Instance
+### ⚙️ Step 1: Launch EC2 Instance
 
 * Instance Type: `t2.micro`
 * OS: Amazon Linux 2
@@ -57,18 +59,19 @@ ssh -i key.pem ec2-user@<public-ip>
 
 ```bash
 sudo hostnamectl set-hostname wordpress-server
-exec bash
+exit
 ```
 
 ### Switch to Root User
 
 ```bash
 sudo -i
+
 ```
 
 ---
 
-## 🐳 Install Docker
+## 🐳 Step 2: Install & Verify Docker
 
 ```bash
 yum update -y
@@ -81,29 +84,28 @@ Verify:
 
 ```bash
 docker --version
+docker ps
+docker ps -a
 ```
+
+(Old nginx containers may appear in exited state — this does not affect the project.)
 
 ---
 
-## 🗄 MySQL Container Setup (Database Tier)
+## 🗄 Step 3: MySQL Container Setup (Database Tier)
 
-### Step 1️⃣ Pull MySQL Image from Docker Hub
+### Step 1️: Pull MySQL Image from Docker Hub
 
 ```bash
 docker pull mysql:5.7
 ```
 
-### Step 2️⃣ Run MySQL Container
+### Step 2️: Run MySQL Container
 
 ```bash
-docker run -d \
---name mysql-container \
--e MYSQL_ROOT_PASSWORD=rootpass \
--e MYSQL_DATABASE=wordpressdb \
--e MYSQL_USER=wpuser \
--e MYSQL_PASSWORD=wppass \
-mysql:5.7
+docker run -d --name mydb -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=wordpressdb mysql
 ```
+
 
 ### Environment Variables Explanation
 
@@ -112,6 +114,8 @@ mysql:5.7
 * `MYSQL_USER` → WordPress DB user
 * `MYSQL_PASSWORD` → WordPress DB password
 
+To view environment variables, you can check the official MySQL Docker repository.<br>
+👉[click here](https://hub.docker.com/_/mysql)
 Verify:
 
 ```bash
@@ -120,26 +124,41 @@ docker ps
 
 ---
 
-## 🌐 WordPress Container Setup (Application Tier)
+## 🔐 Step 4: Validate MySQL Database
 
-### Step 1️⃣ Pull WordPress Image
+```bash
+docker exec -it mydb /bin/bash
+```
+
+```bash
+mysql -u root -p
+```
+
+```sql
+show databases;
+use wordpressdb;
+show tables;
+```
+
+At this stage, the database exists but tables are **empty** (WordPress not connected yet).
+
+---
+
+
+
+## 🌐 Step 5: WordPress Container Setup (Application Tier)
+
+### Step i: Pull WordPress Image
 
 ```bash
 docker pull wordpress:latest
 ```
+or
 
-### Step 2️⃣ Run WordPress Container (Linked with MySQL)
+### Step ii: Run WordPress Container (Linked with MySQL)
 
 ```bash
-docker run -d \
---name wordpress-container \
--p 80:80 \
---link mysql-container:mysql \
--e WORDPRESS_DB_HOST=mysql \
--e WORDPRESS_DB_USER=wpuser \
--e WORDPRESS_DB_PASSWORD=wppass \
--e WORDPRESS_DB_NAME=wordpressdb \
-wordpress:latest
+ docker run -d -p 80:80 --name wordpressapp -e WORDPRESS_DB_HOST=mydb -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=root -e WORDPRESS_DB_NAME=wordpressdb --link mydb:mysql wordpress
 ```
 
 ### WordPress Environment Variables
@@ -148,6 +167,9 @@ wordpress:latest
 * `WORDPRESS_DB_USER` → DB username
 * `WORDPRESS_DB_PASSWORD` → DB password
 * `WORDPRESS_DB_NAME` → Database name
+
+  To view environment variables, you can check the official Wordpress Docker repository.<br>
+👉[click here](https://hub.docker.com/_/wordpress)
 
 Verify:
 
@@ -165,7 +187,7 @@ docker ps
 
 ---
 
-## 🌐 Access WordPress Application
+## 🌍 Step 6: Access WordPress Application
 
 Open browser:
 
@@ -175,10 +197,29 @@ http://<EC2-Public-IP>
 
 You should see the **WordPress installation page**.
 
-📸 Take screenshots for:
+---
 
-* WordPress Welcome Screen
-* Running Containers (`docker ps`)
+## ✅ Step 7: Verify DB–WordPress Connectivity
+
+```bash
+docker exec -it mydb /bin/bash
+mysql -u root -p
+```
+
+```sql
+use wordpressdb;
+show tables;
+```
+
+✅ WordPress tables are now created automatically:
+
+* wp_posts
+* wp_users
+* wp_options
+* wp_comments
+* etc.
+
+This confirms **successful application–database integration**.
 
 ---
 
