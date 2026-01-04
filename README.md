@@ -15,6 +15,9 @@ The project is beginner-friendly and designed for **hands-on DevOps practice**.
 * Connect WordPress with MySQL using environment variables
 * Understand container-based **Two-Tier Architecture**
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/wordpress%20continizer.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
 ---
 
 ## 🏗 Architecture Overview (Two-Tier)
@@ -47,9 +50,12 @@ MySQL Container (DB Tier)
 > For better understanding, name the instance:
 > **`Ansible-Docker-WordPress`**
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20180857.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
 ---
 
-## 🔐 Server Login & Basic Setup
+### 🔐 Server Login & Basic Setup
 
 ```bash
 ssh -i key.pem ec2-user@<public-ip>
@@ -72,6 +78,8 @@ sudo -i
 ---
 
 ## 🐳 Step 2: Install & Verify Docker
+
+if you wan see installaction process [click here](https://github.com/nikiimisal/Docker_info-and-setup)
 
 ```bash
 yum update -y
@@ -96,8 +104,9 @@ docker ps -a
 
 ### Step 1️: Pull MySQL Image from Docker Hub
 
+
 ```bash
-docker pull mysql:5.7
+docker pull mysql:5.7   # Optional
 ```
 
 ### Step 2️: Run MySQL Container
@@ -121,7 +130,9 @@ Verify:
 ```bash
 docker ps
 ```
-
+<p align="center">
+  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20173335.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
 ---
 
 ## 🔐 Step 4: Validate MySQL Database
@@ -142,6 +153,11 @@ show tables;
 
 At this stage, the database exists but tables are **empty** (WordPress not connected yet).
 
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20174626.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
 ---
 
 
@@ -151,7 +167,7 @@ At this stage, the database exists but tables are **empty** (WordPress not conne
 ### Step i: Pull WordPress Image
 
 ```bash
-docker pull wordpress:latest
+docker pull wordpress:latest   # Optional
 ```
 or
 
@@ -176,6 +192,9 @@ Verify:
 ```bash
 docker ps
 ```
+<p align="center">
+  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20164943.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
 
 ---
 
@@ -196,6 +215,9 @@ http://<EC2-Public-IP>
 ```
 
 You should see the **WordPress installation page**.
+| **Wordpress-Consol**    | ****          | ****          |
+|--------------------------------|------------------------------------|------------------------------------|
+| ![VS](https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20165151.png?raw=true) | ![AWS](https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20165338.png?raw=true) | ![AWS](https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20165338.png?raw=true) |
 
 ---
 
@@ -220,6 +242,10 @@ show tables;
 * etc.
 
 This confirms **successful application–database integration**.
+
+<p align="center">
+  <img src="https://github.com/nikiimisal/Project_Containrize-Wordpress/blob/main/img/Screenshot%202026-01-04%20174626.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
 
 ---
 
